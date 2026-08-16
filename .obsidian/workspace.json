@@ -190,12 +190,11 @@
   },
   "active": "9f6ebd33193ec19f",
   "lastOpenFiles": [
-    "Без названия.base",
     "docs/adr/ADR-0007-dependency-injection-strategy.md.md",
-    "docs/adr/ADR-0008-ai-provider-architecture.md.md",
     "docs/adr/ADR-0006-database-schema.md.md",
-    "docs/adr/ADR-0001-flutter.md.md",
+    "docs/adr/ADR-0008-ai-provider-architecture.md.md",
     "docs/adr/ADR-0005-local-first-data-architecture.md.md",
+    "Без названия.base",
     "docs/adr/ADR-0004-domain-entity-architecture.md.md",
     "docs/adr/ADR-0003-project-structure.md.md",
     "docs/00-vision/vision.md.md",
@@ -210,6 +209,7 @@
     "docs/06-sync/sync-architecture.md.md",
     "docs/03-database/database-overview.md.md",
     "docs/03-database/data-model.md.md",
+    "docs/adr/ADR-0001-flutter.md.md",
     "docs/adr",
     "docs/07-roadmap",
     "docs/06-sync",
@@ -219,7 +219,6 @@
     "docs/02-architecture",
     "docs/01-product",
     "docs/00-vision",
-    "docs",
     "test.md.md"
   ]
 }
