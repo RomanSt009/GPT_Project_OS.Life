@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/adr/ADR-0011-backup-export-architecture.md.md",
+                "file": "docs/adr/ADR-0012-search-architecture.md.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ADR-0011-backup-export-architecture.md"
+              "title": "ADR-0012-search-architecture.md"
             }
           }
         ]
@@ -190,9 +190,9 @@
   },
   "active": "9f6ebd33193ec19f",
   "lastOpenFiles": [
-    "docs/adr/ADR-0002-application-stack.md.md",
     "docs/adr/ADR-0011-backup-export-architecture.md.md",
-    "docs/adr/111.md",
+    "docs/adr/ADR-0002-application-stack.md.md",
+    "docs/adr/ADR-0012-search-architecture.md.md",
     "docs/adr/ADR-0007-dependency-injection-strategy.md.md",
     "docs/adr/ADR-0010-security-architecture.md.md",
     "Без названия.base",

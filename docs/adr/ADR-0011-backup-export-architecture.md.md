@@ -1418,15 +1418,13 @@ RTO = 30 min
 
 В будущем пользователь сможет выбрать:
 
+```
 Backup
-
  ├── Manual
-
  ├── Daily
-
  ├── Weekly
-
  └── Custom
+```
 
 ---
 
@@ -1456,23 +1454,17 @@ Backup Failed
 
 Если Backup destination временно недоступен:
 
+```
 Create Backup
-
  ↓
-
 Local Backup
-
  ↓
-
 Queue Upload
-
  ↓
-
 Network Available
-
  ↓
-
 Upload
+```
 
 ---
 
@@ -1480,19 +1472,15 @@ Upload
 
 Backup upload не должен блокировать обычную работу Sync.
 
+```
 Sync
-
    │
-
    └── independent
 
-  
-
-Backup
-
+  Backup
    │
-
    └── independent
+```
 
 ---
 
@@ -1500,59 +1488,47 @@ Backup
 
 Export также не должен зависеть от Sync.
 
+```
 Local Data
-
    ↓
-
 Export
+```
 
 ---
 
 # 72. Backup Lifecycle
 
 Backup должен иметь lifecycle:
+```
 
 Created
-
    ↓
-
 Verified
-
    ↓
-
 Stored
-
    ↓
-
 Retained
-
    ↓
-
 Expired
-
    ↓
-
 Deleted
+```
 
 ---
 
 # 73. Export Lifecycle
 
 Export проще:
+```
 
 Requested
-
    ↓
-
 Generated
-
    ↓
-
 Saved
-
    ↓
-
 User manages file
+```
 
 ---
 
@@ -1583,11 +1559,8 @@ lifeos-export-2026-08-16.zip
 Container
 
 ├── Manifest
-
 ├── Data
-
 ├── Files
-
 └── Metadata
 
 Конкретная serialization технология будет определена позже.
@@ -1603,9 +1576,7 @@ Restore into current LifeOS
 Перед этим необходимо:
 
 Current Data
-
  ↓
-
 Safety Backup
 
 ---
@@ -1615,13 +1586,9 @@ Safety Backup
 Поддерживается сценарий:
 
 Install LifeOS
-
  ↓
-
 Restore Backup
-
  ↓
-
 Continue
 
 ---
@@ -1631,13 +1598,9 @@ Continue
 В будущем Export должен потенциально использоваться обратно:
 
 Export
-
  ↓
-
 Import
-
  ↓
-
 LifeOS
 
 Это особенно важно для миграции.
@@ -1649,21 +1612,13 @@ LifeOS
 Import должен проходить:
 
 Parse
-
  ↓
-
 Validate
-
  ↓
-
 Normalize
-
  ↓
-
 Resolve Relationships
-
  ↓
-
 Import
 
 ---
@@ -1745,13 +1700,9 @@ Copy of user's LifeOS
 Embeddings могут быть исключены, если они могут быть полностью восстановлены.
 
 Backup
-
  ↓
-
 Core Data
-
  ↓
-
 Rebuild Embeddings
 
 Это уменьшает размер Backup.
@@ -1763,9 +1714,7 @@ Rebuild Embeddings
 Search Index также желательно пересоздавать после Restore.
 
 Restore Database
-
  ↓
-
 Rebuild Search Index
 
 ---
@@ -1775,9 +1724,7 @@ Rebuild Search Index
 Cache не является обязательной частью Backup.
 
 Cache
-
  ↓
-
 Exclude
 
 ---
@@ -1809,7 +1756,6 @@ Preparing...
 ██████████░░░░ 68%
 
   
-
 Compressing...
 
 Uploading...
@@ -1825,9 +1771,7 @@ Verifying...
 Например:
 
 Export
-
  ↓
-
 Cancel
 
 При отмене незавершённый файл не должен считаться валидным Export.
@@ -1847,17 +1791,11 @@ backup.lifeos
 Предпочтительный процесс:
 
 Create temporary file
-
  ↓
-
 Write
-
  ↓
-
 Verify
-
  ↓
-
 Rename to final Backup
 
 ---
@@ -1877,9 +1815,7 @@ Application Crash
 Аналогично:
 
 Export
-
  ↓
-
 Crash
 
 не должен создавать файл, который пользователь примет за полный Export.
@@ -1899,13 +1835,9 @@ LifeOS должен исходить из принципа:
 В будущем возможно:
 
 Encrypted Backup
-
         ↓
-
 Cloud Storage
-
         ↓
-
 Multiple Devices
 
 Но Cloud Backup не должен становиться обязательным для работы приложения.
@@ -1917,9 +1849,7 @@ Multiple Devices
 Архитектура должна позволять:
 
 LifeOS
-
  ↓
-
 User's Server
 
 без полной переделки Backup subsystem.
@@ -1935,13 +1865,9 @@ BackupService
 например:
 
 createBackup()
-
 restoreBackup()
-
 verifyBackup()
-
 deleteBackup()
-
 listBackups()
 
 Конкретный API будет определён на этапе технического проектирования.
@@ -1957,9 +1883,7 @@ ExportService
 может предоставлять:
 
 exportAll()
-
 exportSelected()
-
 estimateSize()
 
 ---
@@ -1967,25 +1891,15 @@ estimateSize()
 # 101. Architecture
 
 Итоговая архитектура:
-
                     LifeOS
-
                        │
-
                Domain Data
-
                        │
-
           ┌────────────┼────────────┐
-
           ↓            ↓            ↓
-
         Sync         Backup       Export
-
           │            │            │
-
           ↓            ↓            ↓
-
        Devices      Recovery    Portability
 
 ---
@@ -2101,34 +2015,19 @@ Encryption and Key Management
 
 После этого необходимо перейти к проектированию Domain Model LifeOS.
 
-  
-
 ### Что мы зафиксировали
-
-  
 
 Самая важная вещь здесь — **мы не делаем Backup частью Sync**.
 
-  
-
 Получается три независимые системы:
 
-  
-
 ```text
-
                     LIFEOS
-
                        │
-
           ┌────────────┼────────────┐
-
           ↓            ↓            ↓
-
         SYNC         BACKUP       EXPORT
-
           │            │            │
-
      устройства     восстановление   свобода
 
 И это даст нам очень полезную возможность в будущем: **если Sync-сервер сломается, аккаунт будет заблокирован или вообще появится другой способ синхронизации — пользователь всё равно имеет локальные данные и независимый Backup.**
