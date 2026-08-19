@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/adr/ADR-0015-semantic-search-and-embeddings.md.md",
+                "file": "docs/adr/ADR-0017-database-and-persistence-architecture.md.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ADR-0015-semantic-search-and-embeddings.md"
+              "title": "ADR-0017-database-and-persistence-architecture.md"
             }
           }
         ]
@@ -190,8 +190,10 @@
   },
   "active": "9f6ebd33193ec19f",
   "lastOpenFiles": [
-    "docs/adr/ADR-0014-ai-tool-calling-and-permissions.md.md",
+    "docs/adr/ADR-0016-domain-model-and-entity-architecture.md.md",
+    "docs/adr/ADR-0017-database-and-persistence-architecture.md.md",
     "docs/adr/ADR-0015-semantic-search-and-embeddings.md.md",
+    "docs/adr/ADR-0014-ai-tool-calling-and-permissions.md.md",
     "docs/adr/ADR-0013-ai-context-engine.md.md",
     "docs/adr/ADR-0012-search-architecture.md.md",
     "docs/adr/ADR-0011-backup-export-architecture.md.md",
@@ -215,8 +217,6 @@
     "docs/07-roadmap/roadmap.md.md",
     "docs/06-sync/sync-architecture.md.md",
     "docs/03-database/database-overview.md.md",
-    "docs/03-database/data-model.md.md",
-    "docs/adr/ADR-0001-flutter.md.md",
     "docs/adr",
     "docs/07-roadmap",
     "docs/06-sync",
