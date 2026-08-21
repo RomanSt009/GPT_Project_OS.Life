@@ -471,25 +471,48 @@ Sync Operations должны быть максимально идемпотен�
 
 # 22. Change Identity
 
-Sync Change должен иметь собственный идентификатор.
+Sync Change должен иметь собственный идентификатор и информацию о версии, от которой было создано изменение.
 
 Концептуально:
-
+```
 Change
-
 ├── change_id
-
 ├── entity_id
-
 ├── device_id
-
 ├── operation
-
-├── version
-
+├── base_version
+├── new_version
 └── timestamp
+```
 
-Конкретный формат определяется implementation stage.
+Где:
+
+- `change_id` — уникальный идентификатор изменения;
+- `entity_id` — идентификатор изменённой Entity;
+- `device_id` — устройство, создавшее изменение;
+- `operation` — тип операции;
+- `base_version` — версия Entity, на основе которой пользователь выполнил изменение;
+- `new_version` — версия Entity после применения изменения;
+- `timestamp` — время создания изменения.
+
+`base_version` используется для определения конкурентных изменений.
+
+Например:
+```
+Initial Entity
+version = 10
+
+PC:
+base_version = 10
+new_version  = 11
+
+Phone:
+base_version = 10
+new_version  = 11
+```
+Оба изменения произошли независимо от версии `10` и требуют проверки на конфликт.
+
+Конкретный формат Change определяется на этапе реализации Sync Data Model.
 
 ---
 
@@ -940,10 +963,41 @@ priority = HIGH
 
 # 43. Field-Level Merge
 
-LifeOS должен по возможности использовать field-level merge для независимых изменений.
+Если изменения затрагивают разные поля одной Entity, они могут быть автоматически объединены.
 
-Но автоматический merge допустим только если система может доказать, что изменения совместимы.
+Например:
+```
+Initial:
+title = "Task"
+priority = LOW
+```
+PC:
+```
+title = "Important Task"
+```
+Phone:
+```
+priority = HIGH
+```
+Результат:
+```
+title = "Important Task"
+priority = HIGH
+```
+Однако Field-Level Merge разрешён **только для полей, для которых определена совместимая Merge Policy**.
 
+Не все поля могут безопасно объединяться автоматически.
+
+Особое внимание требуется для:
+
+- `lifecycle_state`;
+- `status`;
+- `parent_id`;
+- Relationship fields;
+- Delete/Restore operations;
+- других полей с семантическими ограничениями.
+
+Для таких полей может потребоваться отдельная Conflict Policy или решение пользователя.
 ---
 
 # 44. Semantic Merge
@@ -1750,36 +1804,47 @@ Authority
 
 ---
 
-# 97. Conflict Resolution Policy
+### 97. Conflict Resolution Policy
 
-Для каждого типа конфликта должна существовать policy.
+Для каждого типа конфликта должна существовать отдельная policy.
 
+Концептуально:
+```
+Conflict Type
+      ↓
+Detection
+      ↓
+Automatic Resolution?
+      ↓
+User Resolution?
+```
 Например:
-
+```
 Field Conflict
-
-→ Automatic Merge if independent
-
-  
+→ Automatic Merge, если поля независимы и для них существует совместимая Merge Policy
 
 Delete vs Update
-
 → Conflict
 
-  
-
 Relationship Conflict
-
 → Conflict / User Decision
 
-  
+Lifecycle Conflict
+→ Conflict / специализированная Policy
 
 AI Suggestion vs User Data
-
 → User Data wins
+```
+Конкретная **Conflict Resolution Matrix** будет определена отдельным техническим артефактом после определения Change Tracking и Sync Data Model.
 
-Конкретная матрица будет определена после прототипирования.
+Она должна определить для каждого типа конфликта:
 
+- условия обнаружения;
+- возможность автоматического разрешения;
+- правила merge;
+- необходимость участия пользователя;
+- приоритет локального и удалённого изменения;
+- возможность восстановления предыдущего состояния.
 ---
 
 # 98. Sync Protocol Versioning
